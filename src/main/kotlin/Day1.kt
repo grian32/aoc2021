@@ -1,7 +1,7 @@
 import java.io.File
 import kotlin.math.max
 
-val input = File("src/main/resources/day1.txt").readText().split("\n").map(String::toInt)
+private val input = File("src/main/resources/day1.txt").readText().split("\n").map(String::toInt)
 
 fun main() {
     println("PART 1\n---")
