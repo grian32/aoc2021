@@ -1,6 +1,6 @@
 package util
 
-object Day3Util {
+object Day3 {
     fun mostCommonBitInColumn(row: String): String {
         val oneCount = row.count { it == '1' }
         val zeroCount = row.count { it == '0' }
