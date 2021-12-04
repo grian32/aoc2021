@@ -1,7 +1,7 @@
-import util.Day3.leastCommonBitInColumn
-import util.Day3.leastCommonBitInColumnP2
-import util.Day3.mostCommonBitInColumn
-import util.Day3.mostCommonBitInColumnP2
+import util.day3.leastCommonBitInColumn
+import util.day3.leastCommonBitInColumnP2
+import util.day3.mostCommonBitInColumn
+import util.day3.mostCommonBitInColumnP2
 import util.splitIntoColumns
 import util.toChar
 import java.io.File
