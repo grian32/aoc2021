@@ -64,8 +64,8 @@ private fun part2(): Int {
             }
         }
 
-        for (i in winnerBoards) {
-            boards.remove(i)
+        for (j in winnerBoards) {
+            boards.remove(j)
         }
     }
 
