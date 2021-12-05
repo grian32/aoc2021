@@ -5,7 +5,7 @@ import util.parseToIntList
 import util.randomNumbers
 import java.io.File
 
-private val input = File("src/main/resources/day4.txt").readText()
+private val input = File("src/main/resources/day4.txt").readText().split("\n\n")
 
 fun main() {
     println("PART 1\n---")
@@ -15,47 +15,61 @@ fun main() {
 }
 
 private fun part1(): Int {
-    val p1input = input.split("\n\n")
-
-    val rollNumbers = p1input[0].parseToIntList()
+    val numbers = input[0].parseToIntList()
     val boards: MutableList<Board> = mutableListOf()
-    var numbersAmount = 5
     var wonBoard: Board? = null
-    var lastItem: BoardItem? = null
+    var lastNumber: Int? = null
 
-    for (i in 1 until p1input.size) {
-        boards.add(parseBoard(p1input[i]))
+    for (i in 1 until input.size) {
+        boards.add(parseBoard(input[i]))
     }
 
-    var rolledNumbers = rollNumbers.randomNumbers(numbersAmount)
+    for (i in numbers) {
+        for (board in boards) {
+            board.mark(i)
 
-    while (wonBoard == null) {
-        for (i in boards) {
-            for (j in i.rows) {
-                for (k in j) {
-                    if (k.num in rolledNumbers) {
-                        k.marked = true
-                    }
-
-                    if (i.hasWon()) {
-                        lastItem = k
-                        wonBoard = i
-                        break
-                    }
-                }
-                if (wonBoard != null) break
+            if (board.hasWon()) {
+                wonBoard = board
+                lastNumber = i
+                break
             }
-            if (wonBoard != null) break
         }
-        numbersAmount++
-        rolledNumbers = rollNumbers.randomNumbers(numbersAmount)
+        if (wonBoard != null) break
     }
 
-    val unmarkedNums = wonBoard.rows.flatten().filter { !it.marked }.sumOf { it.num }
 
-    return unmarkedNums * lastItem!!.num
+    val unmarkedNums = wonBoard!!.rows.flatten().filter { !it.marked }.sumOf { it.num }
+
+    return unmarkedNums * lastNumber!!
 }
 
-private fun part2() {
+private fun part2(): Int {
+    val numbers = input[0].parseToIntList()
+    val boards: MutableList<Board> = mutableListOf()
+    // board, number
+    var wonBoard: Pair<Board, Int>? = null
 
+    for (i in 1 until input.size) {
+        boards.add(parseBoard(input[i]))
+    }
+
+    for (i in numbers) {
+        val winnerBoards: MutableList<Board> = mutableListOf()
+        for (board in boards) {
+            board.mark(i)
+
+            if (board.hasWon()) {
+                wonBoard = Pair(board, i)
+                winnerBoards.add(board)
+            }
+        }
+
+        for (i in winnerBoards) {
+            boards.remove(i)
+        }
+    }
+
+    val unmarkedNums = wonBoard!!.first.rows.flatten().filter { !it.marked }.sumOf { it.num }
+
+    return unmarkedNums * wonBoard.second
 }

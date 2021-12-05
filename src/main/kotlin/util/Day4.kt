@@ -5,7 +5,7 @@ object Day4 {
     data class BoardItem(val num: Int, var marked: Boolean)
 
     data class Board(var rows: List<List<BoardItem>>) {
-        fun getColumns(): List<List<BoardItem>> {
+        private fun getColumns(): List<List<BoardItem>> {
             val columns: MutableList<MutableList<BoardItem>> = mutableListOf()
 
             for (i in 0 until 5) {
@@ -35,6 +35,16 @@ object Day4 {
             }
 
             return false
+        }
+
+        fun mark(number: Int) {
+            for (i in rows) {
+                for (j in i) {
+                    if (j.num == number) {
+                         j.marked = true
+                    }
+                }
+            }
         }
     }
 
