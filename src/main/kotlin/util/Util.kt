@@ -24,3 +24,18 @@ fun String.toChar(): Char {
 
     return get(0)
 }
+
+// assumes format is similar to 0.0,0,0,0,
+fun String.parseToIntList(): List<Int> = trim().split(",").map(String::trim).map(String::toInt)
+
+fun List<String>.filterNotEmpty(): List<String> = filter { it != "" }
+
+fun List<Int>.randomNumbers(amount: Int): List<Int> {
+    val randomNums: MutableList<Int> = mutableListOf()
+
+    for (i in 0 until amount) {
+        randomNums.add(random())
+    }
+
+    return randomNums.toList()
+}
