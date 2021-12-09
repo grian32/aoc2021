@@ -25,6 +25,17 @@ private fun part1(): Int {
     return riskSum
 }
 
-private fun part2() {
+private fun part2(): Int {
+    val grid = parseIntoGrid(input)
+    val basinSizes: MutableList<Int> = mutableListOf()
 
+    for ((x, i) in grid.rows.withIndex()) {
+        for ((y, j) in i.withIndex()) {
+            if (grid.isLowPoint(x, y)) {
+                basinSizes.add(grid.basinSize(x, y))
+            }
+        }
+    }
+
+    return basinSizes.sorted().takeLast(3).reduce(Int::times)
 }
