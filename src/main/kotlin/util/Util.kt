@@ -39,3 +39,7 @@ fun List<Int>.randomNumbers(amount: Int): List<Int> {
 
     return randomNums.toList()
 }
+
+fun List<Long>.middle(): Long {
+    return slice(0..(size / 2)).last()
+}

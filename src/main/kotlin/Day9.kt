@@ -1,4 +1,4 @@
- import util.Day9.parseIntoGrid
+import util.Day9.parseIntoGrid
 import java.io.File
 
 private val input = File("src/main/resources/day9.txt").readText()
