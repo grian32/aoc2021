@@ -7,25 +7,8 @@ class Day11 {
 
     fun part1(): Int {
         for (c in 0 until 100) {
-            var stepFlashes = 0
-            for (x in 0 until 10) {
-                for (y in 0 until 10) {
-                    addAndFlash(x, y)
-                }
-            }
-
-            for (x in 0 until 10) {
-                for (y in 0 until 10) {
-                    if (grid[x][y] == 10) {
-                        stepFlashes++
-                        grid[x][y] = 0
-                    }
-                }
-            }
-
-            flashes += stepFlashes
+            step()
         }
-
 
         return flashes
     }
@@ -33,44 +16,54 @@ class Day11 {
     fun part2(): Int {
         grid = File("src/main/resources/day11.txt").readText().parseGrid()
 
-        for (c in 0 until Int.MAX_VALUE) {
-            var stepFlashes = 0
-            for (x in 0 until 10) {
-                for (y in 0 until 10) {
-                    addAndFlash(x, y)
-                }
-            }
-
-            for (x in 0 until 10) {
-                for (y in 0 until 10) {
-                    if (grid[x][y] == 10) {
-                        stepFlashes++
-                        grid[x][y] = 0
-                    }
-                }
-            }
+        for (c in 1 until Int.MAX_VALUE) {
+            step()
 
             if (grid.flatten().count { it == 0 } == 100) {
-                return c + 1 // off by one dunno why
+                return c
             }
         }
 
         return 0
     }
 
-    private fun addAndFlash(x: Int, y: Int) {
-        if (x < 0 || x >= 10 || y < 0 || y >= 10) return
+    private fun step() {
+        var stepFlashes = 0
 
-        val value = grid[x][y]
-
-        if (value < 9) {
-            grid[x][y] += 1
-        } else if (value == 9) {
-            grid[x][y] = 10
-            getAdjacentPoints(x, y).forEach {
-                addAndFlash(it.first, it.second)
+        for ((x, i) in grid.withIndex()) {
+            for (y in i.indices) {
+                if (grid[x][y] < 9) {
+                    grid[x][y]++
+                } else if (grid[x][y] == 9) {
+                    flash(x, y, true)
+                }
             }
         }
+
+        for ((x, i) in grid.withIndex()) {
+            for (y in i.indices) {
+                if (grid[x][y] == 10) {
+                    grid[x][y] = 0
+                    stepFlashes++
+                }
+            }
+        }
+
+        flashes += stepFlashes
+    }
+
+    private fun flash(x: Int, y: Int, first: Boolean = false) {
+        if (x < 0 || y < 0 || x >= grid.size || y >= grid[0].size) return
+
+        if (grid[x][y] < 9 && !first) {
+            grid[x][y]++
+        } else if (grid[x][y] == 9){
+            grid[x][y] = 10
+            getAdjacentPoints(x, y).forEach {
+                flash(it.first, it.second)
+            }
+        }
+
     }
 
     private fun getAdjacentPoints(x: Int, y: Int): List<Pair<Int, Int>> {
